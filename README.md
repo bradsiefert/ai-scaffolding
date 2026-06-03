@@ -10,4 +10,4 @@ ai-bootstrap/
 I could not find these plans for the life of me so I decided they need to go into Github. This repo is a living reference I can pull from and build on.
 
 ## Status
-Early days. More coming eventually.
+Early days. More coming eventually. 
