@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Symlink skills from this repo into Cursor, Claude, Codex, and Agents.
-# Repo layout: skills/personal/* and skills/external/* (sectioned).
-# Install layout: flat per-skill links under each tool's skills dir.
+# Repo: skills/personal/* and skills/external/<author>/* (sectioned).
+# Install: flat per-skill links under each tool's skills dir.
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")" && pwd)"
@@ -11,33 +11,54 @@ NAME_LIST="$(mktemp)"
 PATH_LIST="$(mktemp)"
 trap 'rm -f "$NAME_LIST" "$PATH_LIST"' EXIT
 
-register_section() {
-  local section_dir="$1"
-  [[ -d "$section_dir" ]] || return 0
+register_skill() {
+  local skill_dir="$1"
+  local name src existing
 
-  local skill_dir name src existing
-  for skill_dir in "$section_dir"/*/; do
-    [[ -d "$skill_dir" ]] || continue
-    name="$(basename "$skill_dir")"
-    if [[ "$name" == ".system" ]]; then
-      echo "skip reserved name: .system"
-      continue
-    fi
-    src="$(cd "$skill_dir" && pwd)"
-    existing="$(lookup_path "$name" || true)"
-    if [[ -n "$existing" ]]; then
-      echo "error: duplicate skill name '$name'" >&2
-      echo "  already: $existing" >&2
-      echo "  also:    $src" >&2
-      exit 1
-    fi
-    printf '%s\n' "$name" >>"$NAME_LIST"
-    printf '%s\n' "$src" >>"$PATH_LIST"
+  [[ -d "$skill_dir" ]] || return 0
+  [[ -f "$skill_dir/SKILL.md" ]] || return 0
+
+  name="$(basename "$skill_dir")"
+  if [[ "$name" == ".system" ]]; then
+    echo "skip reserved name: .system"
+    return 0
+  fi
+
+  src="$(cd "$skill_dir" && pwd)"
+  existing="$(lookup_path "$name" || true)"
+  if [[ -n "$existing" ]]; then
+    echo "error: duplicate skill name '$name'" >&2
+    echo "  already: $existing" >&2
+    echo "  also:    $src" >&2
+    exit 1
+  fi
+  printf '%s\n' "$name" >>"$NAME_LIST"
+  printf '%s\n' "$src" >>"$PATH_LIST"
+}
+
+# One level: skills/personal/<skill>/
+register_personal() {
+  local skill_dir
+  [[ -d "$PERSONAL" ]] || return 0
+  for skill_dir in "$PERSONAL"/*/; do
+    register_skill "$skill_dir"
+  done
+}
+
+# Two levels: skills/external/<author>/<skill>/
+register_external() {
+  local author_dir skill_dir
+  [[ -d "$EXTERNAL" ]] || return 0
+  for author_dir in "$EXTERNAL"/*/; do
+    [[ -d "$author_dir" ]] || continue
+    for skill_dir in "$author_dir"/*/; do
+      register_skill "$skill_dir"
+    done
   done
 }
 
 lookup_path() {
-  local want="$1" name src
+  local want="$1" name
   local i=0
   while IFS= read -r name; do
     i=$((i + 1))
@@ -57,7 +78,6 @@ skill_count() {
   wc -l <"$NAME_LIST" | tr -d ' '
 }
 
-# Ensure dest_root is a real directory (not a whole-dir symlink to the repo).
 ensure_real_skills_dir() {
   local dest_root="$1"
   local parent
@@ -124,8 +144,8 @@ main() {
   : >"$NAME_LIST"
   : >"$PATH_LIST"
 
-  register_section "$PERSONAL"
-  register_section "$EXTERNAL"
+  register_personal
+  register_external
 
   local count
   count="$(skill_count)"

@@ -1,0 +1,31 @@
+# skill_name	github_owner/repo	path_in_repo (dir containing SKILL.md)
+# Tabs separate fields. Folder under external/ may differ from github owner (e.g. caveman).
+find-skills	vercel-labs/skills	skills/find-skills
+vercel-react-best-practices	vercel-labs/agent-skills	skills/react-best-practices
+vercel-composition-patterns	vercel-labs/agent-skills	skills/composition-patterns
+web-design-guidelines	vercel-labs/agent-skills	skills/web-design-guidelines
+grill-me	mattpocock/skills	skills/productivity/grill-me
+grill-with-docs	mattpocock/skills	skills/engineering/grill-with-docs
+improve-codebase-architecture	mattpocock/skills	skills/engineering/improve-codebase-architecture
+handoff	mattpocock/skills	skills/productivity/handoff
+# Local copy filed under mattpocock/; upstream publisher is Julius Brussee (skills.sh).
+caveman	juliusbrussee/caveman	skills/caveman
+animation-vocabulary	emilkowalski/skills	skills/animation-vocabulary
+apple-design	emilkowalski/skills	skills/apple-design
+emil-design-eng	emilkowalski/skills	skills/emil-design-eng
+find-animation-opportunities	emilkowalski/skills	skills/find-animation-opportunities
+improve-animations	emilkowalski/skills	skills/improve-animations
+review-animations	emilkowalski/skills	skills/review-animations
+prototype	emilkowalski/skills	skills/prototype
+# make-interfaces-feel-better — no longer published on emilkowalski/skills (not checked)
+better-accessibility	jakubkrehel/skills	skills/better-accessibility
+better-colors	jakubkrehel/skills	skills/better-colors
+better-interface	jakubkrehel/skills	skills/better-interface
+better-layout	jakubkrehel/skills	skills/better-layout
+better-typography	jakubkrehel/skills	skills/better-typography
+better-ui	jakubkrehel/skills	skills/better-ui
+better-writing	jakubkrehel/skills	skills/better-writing
+oklch-skill	jakubkrehel/oklch-skill	skills/oklch-skill
+frontend-design	anthropics/skills	skills/frontend-design
+ui-ux-pro-max	nextlevelbuilder/ui-ux-pro-max-skill	.claude/skills/ui-ux-pro-max
+userinterface-wiki	raphaelsalaja/userinterface-wiki	skills
