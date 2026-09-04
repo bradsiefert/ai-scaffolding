@@ -41,13 +41,14 @@ Skill scopes he uses:
 - Claude-only — Claude Code machines
 - command-center — leader box only
 
-**Simpler version for this repo:** skills in git + symlink or `sync.sh` after `git pull`.
+**Simpler version for this repo:** skills in git + symlink or `sync-skills.sh` after `git pull`.
 
 ```
 ai-scaffolding/   # or a dedicated fleet folder later
   skills/
-    file-pr/SKILL.md
-  sync.sh         # optional; symlink is enough if every machine wants the same set
+    personal/…    # mine
+    external/…    # other authors
+  sync-skills.sh  # flat per-skill links into Cursor/Claude/Codex
 ```
 
 Install onto the machine:

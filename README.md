@@ -1,40 +1,32 @@
 # AI Scaffolding
-Starting structure for AI-assisted projects: agent instructions, conventions, and plans you drop in so the next repo isn't a blank slate.
 
-## Structure
+Personal fleet of agent skills + plans. This repo is the source of truth.
+`./sync-skills.sh` symlinks them into Cursor, Claude, and Codex.
+
+## Layout
+
 ```
-ai-scaffolding/
-├── agents/        # AGENTS.md and other AI instruction files
-├── skills/        # Portable Cursor/Claude/Codex skills (SKILL.md folders)
-├── plans/         # Project plans and specs generated with AI assistance
-└── sync.sh        # Symlink installer for this machine
+skills/personal/   # mine (− BkS👨‍💻 in description)
+skills/external/   # other authors (vendored copies)
+agents/            # AGENTS.md
+plans/
+sync-skills.sh
 ```
 
-## Authorship
-Skills in this kit end the frontmatter `description` with `- BkS👨‍💻` (shows in the hover tooltip). Body does not need it.
+## Setup
 
-## Install
 ```bash
 git clone <repo> ~/Sites/personal/ai-scaffolding
 cd ~/Sites/personal/ai-scaffolding
-./sync.sh
+./sync-skills.sh
 ```
 
-What `sync.sh` does:
+Links each skill into `~/.cursor/skills`, `~/.claude/skills`, `~/.codex/skills`, and `~/.agents/skills`. Re-run after adding or renaming a skill folder. Content edits are live (symlinks).
 
-- **Cursor** — whole-dir: `skills/` → `~/.cursor/skills`
-- **Claude / Codex** — per-skill links into `~/.claude/skills` and `~/.codex/skills` (keeps existing skills; never touches Codex `.system`)
+## Add / update skills
 
-Manual Cursor equivalent:
+- Mine → `skills/personal/<name>/`
+- Others → `skills/external/<name>/`
+- Commit, push, `./sync-skills.sh` on other machines
 
-```bash
-ln -sfn ~/Sites/personal/ai-scaffolding/skills ~/.cursor/skills
-```
-
-Cloud Agents / remote SSH do **not** see `~/.cursor/skills`. For those: copy skills into the project, or bake them into the worker image.
-
-## Why
-A playbook is something you read. Scaffolding is something you stand up. I kept losing these plans, so they live here now — a kit I can clone, copy from, and grow.
-
-## Status
-Early days. More coming eventually.
+Cloud Agents don’t see `~/.cursor/skills` — copy skills into the project or bake into the worker.
